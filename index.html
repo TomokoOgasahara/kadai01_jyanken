@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <script src="js/jquery-2.1.3.min.js"></script>
+    <link rel="stylesheet" href="css/sample.css">
+    <title>じゃんけん</title>
+</head>
+
+<body>
+
+    <header>
+        <img class="header_logo" src="img/header.png" alt="header_logo">
+    </header>
+
+    <main>
+        <audio src="img/bgm.mp3" id="music" controls></audio>    
+    
+        <div class="play1">
+            <img src="img/play.png" alt="play1">
+        </div>
+
+        <ul>
+            <li id="gu_btn"><img src="img/gu.png" alt=""></li>
+            <li id="par_btn"><img src="img/par.png" alt=""></li>
+            <li id="cho_btn"><img src="img/cho.png" alt=""></li>            
+            <!-- <li id="gu_btn">グー</li>
+            <li id="cho_btn">チョキ</li>
+            <li id="par_btn">パー</li> -->
+        </ul>
+            
+        <div class="play2">
+            <img src="img/question.png" alt="play2"></div>
+            <span id="pc_hands"></span>
+         </div>
+
+        <div id="judgment"></div>
+    </main>
+
+    <footer></footer>
+    <script>
+    //1.自分の出し手を入れる
+    $("#gu_btn").on("click", function() {
+            const playerHand = "グー";
+            janken(playerHand);
+        });
+        $("#cho_btn").on("click", function() {
+            const playerHand = "チョキ";
+            janken(playerHand);
+        });
+        $("#par_btn").on("click", function() {
+            const playerHand = "パー";
+            janken(playerHand);
+        });
+
+    function janken(playerHand){
+        // コンピュータの出し手をランダムに選択
+        const r = Math.ceil(Math.random() * 3);
+        let pc_hands = "";
+        if (r == 1) {
+            pc_hands = "グー";
+            $("#pc_hands").html('<img src="img/gu.png", width=390px>');
+        } else if (r == 2) {
+            pc_hands = "チョキ";
+            $("#pc_hands").html('<img src="img/cho.png", width=390px>');
+        } else if (r == 3) {
+            pc_hands = "パー";
+            $("#pc_hands").html('<img src="img/par.png", width=390px>');
+        }
+
+    //3.コンピュータの出し手を表示する
+    $("pc_hands").html(pc_hands);
+
+    //3.勝ち負けを決める
+    // 効果音のファイルを読み込む
+    const winSound = new Audio('img/win.mp3');
+    const loseSound = new Audio('img/lose.mp3');
+
+    let result = "";
+
+    if(
+    playerHand=="グー" && pc_hands=="チョキ" ||
+    playerHand=="チョキ" && pc_hands=="パー" ||
+    playerHand=="パー" && pc_hands=="グー"){
+        result = "勝ち";
+        $("#judgment").html('<img src="img/kachi.png">');
+        winSound.play();
+    } else if (playerHand == pc_hands){
+        result = "あいこ";
+        $("#judgment").html('<img src="img/aiko.png">');
+    } else {
+        result = "負け";
+        $("#judgment").html('<img src="img/make.png">');
+        loseSound.play();
+    }
+}
+
+    </script>
+
+    </body>
+
+</html>
